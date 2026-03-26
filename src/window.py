@@ -6,31 +6,42 @@ class WindowInterface:
         if self.display_value == "Error":
             self.clear(display)
             return
-        counter = 0
-        for i in self.display_value:
-
-            if not (i.isdigit()):
-                number = self.display_value[-counter:]
-                counter+=1
-                self.display_value = self.display_value[:-counter]
+        number = ""
+        for index, digit in enumerate(self.display_value[::-1]):
+            if not (self.display_value[-1:].isdigit()):
+                self.display_value = "Error"
                 self.update_display(display)
-                if i == "+":
-                    self.display_value += str(int(number) * -1)
-                else:
-                    print(self.display_value)
-                    self.display_value = self.display_value[-counter:]
-                    print(self.display_value)
-                    self.display_value += "+" + number
+                return
+            if digit.isdigit():
+                number += digit
+            else:
+                signal = digit
+                print(signal)
+                match signal:
+                    case "+":
+                        signal = "-"
+                        self.display_value = self.display_value[:-(index + 1)]
+                        self.display_value += signal + number[::-1]
+                        self.update_display(display)
+                    case "-":
+                        signal = "+"
+                        self.display_value = self.display_value[:-(index + 1)]
+                        self.display_value += signal + number[::-1]
+                        self.update_display(display)
+                    case _:
+                        signal = "+"
+                        self.display_value = self.display_value[:-index]
+                        self.display_value += signal + number[::-1]
+                        self.update_display(display)
+                return
 
-                break
-            counter += 1
-        self.update_display(display)
     def delete(self,display):
         if self.display_value == "Error":
             self.clear(display)
             return
         self.display_value = self.display_value[:-1]
         self.update_display(display)
+
 
     def calculate(self,display):
         if self.display_value == "Error":
@@ -49,21 +60,27 @@ class WindowInterface:
         if self.display_value == "Error":
             self.clear(display)
             return
-        counter = 0
-        for n,i in enumerate(self.display_value):
+        number = ""
+        for index, digit in enumerate(self.display_value[::-1]):
+            if not(self.display_value[-1:].isdigit()):
+                self.display_value = "Error"
+                self.update_display(display)
+                return
+            if digit.isdigit():
+                number += digit
+            else:
+                number = number[::-1]
 
-            if n+1 == len(self.display_value):
-                number = self.display_value
-                self.display_value = self.display_value[:-counter]
+                self.display_value = self.display_value[:-index]
                 self.display_value += str(int(number) ** 2)
-                break
-            if not(i.isdigit()):
-                number = self.display_value[-counter:]
-                self.display_value = self.display_value[:-counter]
-                self.display_value +=  str(int(number)**2)
-                break
-            counter += 1
-        self.update_display(display)
+                self.update_display(display)
+                return
+            if index + 1 == len(self.display_value):
+                number = number[::-1]
+                self.display_value = ""
+                self.display_value += str(int(number) ** 2)
+                self.update_display(display)
+                return
 
 
     def button(self,label,display):
@@ -77,6 +94,7 @@ class WindowInterface:
     def clear(self,display):
         self.display_value = ""
         self.update_display(display)
+
 
     def create_window(self):
 
