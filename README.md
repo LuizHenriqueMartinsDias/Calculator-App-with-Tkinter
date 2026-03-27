@@ -35,7 +35,8 @@ src/
      ├── logic.py     # Calculator logic
      └── UI.py        # Graphical interface (Tkinter)
 assets/
- └──img.png
+ ├──img.png
+ └──demo.gif
 ```
 
 ### 🔹 `logic.py`
