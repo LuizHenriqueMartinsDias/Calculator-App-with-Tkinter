@@ -6,7 +6,7 @@ A simple calculator application built with Python using Tkinter, focused on clea
 
 ## 🎬 Demo
 
-![Calculator Demo](assets/demo.gif)
+![Calculator Demo](assets/demo2.gif)
 
 ---
 
